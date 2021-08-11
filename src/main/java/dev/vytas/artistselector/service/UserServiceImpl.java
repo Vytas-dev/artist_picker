@@ -31,9 +31,14 @@ public class UserServiceImpl implements UserService {
 
   @Override
   public void saveArtist(Long id, ArtistDto artistDto) {
-    var artist = artistRepository.findById(artistDto.amgArtistId).orElse(saveNewArtist(artistDto));
+    var artist = getArtist(artistDto);
+    userRepository.save(new User(id, artist));
+  }
 
-    userRepository.findById(id).orElse(saveNewUser(id, artist));
+  private Artist getArtist(ArtistDto artistDto) {
+    var artist = artistRepository.findById(artistDto.amgArtistId);
+
+    return artist.orElseGet(() -> saveNewArtist(artistDto));
   }
 
   @Override
@@ -56,9 +61,5 @@ public class UserServiceImpl implements UserService {
     artist.getAlbums().clear();
     artist.getAlbums().addAll(albums);
     artistRepository.save(artist);
-  }
-
-  private User saveNewUser(Long id, Artist artist) {
-    return userRepository.save(new User(id, artist));
   }
 }

@@ -46,5 +46,6 @@ docker run -p 8080:8080 -t artist-selector:0.0.1-SNAPSHOT
 * Create production profile to disable devTools, etc.
 * Enable endpoints (at least top albums endpoint) caching in case application is used with regular, not H2 in memory DB.
 * Integrate Swagger to generate endpoints API docs.
+* Handle exceptions properly, extend logging.
 
 
