@@ -6,7 +6,7 @@ import dev.vytas.artistselector.http.external.client.dto.ArtistDto;
 import java.util.List;
 
 public interface QueryService {
-    List<ArtistDto> searchForArtist(String searchTerm);
+  List<ArtistDto> searchForArtist(String searchTerm);
 
-    List<AlbumDto> getTopAlbumsForArtist(Long artistId);
+  List<AlbumDto> getTopAlbumsForArtist(Long artistId);
 }

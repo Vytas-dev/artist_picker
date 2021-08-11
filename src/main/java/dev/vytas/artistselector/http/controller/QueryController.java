@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("search")
 public class QueryController {
 
-    private final QueryService queryService;
+  private final QueryService queryService;
 
-    @GetMapping(value = "/artist", produces = "application/json")
-    public @ResponseBody List<ArtistDto> searchForArtist(@RequestParam String term) {
-        return queryService.searchForArtist(term);
-    }
+  @GetMapping(value = "/artist", produces = "application/json")
+  public @ResponseBody List<ArtistDto> searchForArtist(@RequestParam String term) {
+    return queryService.searchForArtist(term);
+  }
 }

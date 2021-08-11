@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "app.album-refresh-trigger",
+      "type": "java.lang.String",
+      "description": "cron expression when to trigger artist top albums refresh."
+    }
+  ] }

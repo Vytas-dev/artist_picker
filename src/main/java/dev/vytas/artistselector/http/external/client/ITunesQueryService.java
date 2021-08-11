@@ -50,5 +50,4 @@ public class ITunesQueryService implements QueryService {
         }
         return result;
     }
-
 }

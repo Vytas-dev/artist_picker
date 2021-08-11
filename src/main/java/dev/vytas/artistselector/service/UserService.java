@@ -5,7 +5,9 @@ import dev.vytas.artistselector.persistence.model.User;
 
 public interface UserService {
 
-    User getUser(Long id);
+  User getUser(Long id);
 
-    void saveArtist(Long id, ArtistDto artistDto);
+  void saveArtist(Long id, ArtistDto artistDto);
+
+  void refreshAllArtistTopAlbums();
 }

@@ -15,24 +15,23 @@ import java.util.Date;
 @Table(name = "user")
 public class User {
 
-    @Id
-    private Long id;
+  @Id private Long id;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "artist_id", nullable = false)
-    private Artist artist;
+  @JsonBackReference
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "artist_id", nullable = false)
+  private Artist artist;
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private Date createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at")
+  private Date createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private Date updatedAt;
 
-    public User(Long id, Artist artist) {
-        this.id = id;
-        this.artist = artist;
-    }
+  public User(Long id, Artist artist) {
+    this.id = id;
+    this.artist = artist;
+  }
 }

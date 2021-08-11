@@ -14,32 +14,33 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-@Table(name = "artist"/*, indexes = @Index(name = "amgArtistIdIdx", columnList = "amgArtistId", unique = true)*/)
+@Table(
+    name =
+        "artist" /*, indexes = @Index(name = "amgArtistIdIdx", columnList = "amgArtistId", unique = true)*/)
 public class Artist {
 
-    @Id
-    private Long id; // its unique amgArtistId from JSON
+  @Id private Long id; // its unique amgArtistId from JSON
 
-    private String name;
+  private String name;
 
-    @JsonManagedReference
-    @OneToMany(mappedBy="artist", cascade = CascadeType.ALL)
-    private Set<User> users = new HashSet<>();
+  @JsonManagedReference
+  @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL)
+  private Set<User> users = new HashSet<>();
 
-    @JsonManagedReference
-    @OneToMany(mappedBy="artist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<Album> albums = new HashSet<>();
+  @JsonManagedReference
+  @OneToMany(mappedBy = "artist", cascade = CascadeType.ALL, orphanRemoval = true)
+  private Set<Album> albums = new HashSet<>();
 
-    @CreationTimestamp
-    @Column(name = "created_at")
-    private Date createdAt;
+  @CreationTimestamp
+  @Column(name = "created_at")
+  private Date createdAt;
 
-    @UpdateTimestamp
-    @Column(name = "updated_at")
-    private Date updatedAt;
+  @UpdateTimestamp
+  @Column(name = "updated_at")
+  private Date updatedAt;
 
-    public Artist(Long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
+  public Artist(Long id, String name) {
+    this.id = id;
+    this.name = name;
+  }
 }

@@ -15,18 +15,17 @@ import java.util.Set;
 @RequestMapping("user")
 public class UserController {
 
-    private final UserService userService;
+  private final UserService userService;
 
-    @GetMapping(value = "{id}/albums", produces = "application/json")
-    public @ResponseBody
-    Set<Album> getTopAlbums(@PathVariable Long id) {
-        var user = userService.getUser(id);
-        return user.getArtist().getAlbums();
-    }
+  @GetMapping(value = "{id}/albums", produces = "application/json")
+  public @ResponseBody Set<Album> getTopAlbums(@PathVariable Long id) {
+    var user = userService.getUser(id);
+    return user.getArtist().getAlbums();
+  }
 
-    @PostMapping(value = "/{id}/artist", produces = "application/json")
-    public void saveArtist(@RequestBody ArtistDto artistDto, @PathVariable Long id) {
-        log.debug("Saving artist {} for user {}", artistDto.artistName, id);
-        userService.saveArtist(id, artistDto);
-    }
+  @PostMapping(value = "/{id}/artist", produces = "application/json")
+  public void saveArtist(@RequestBody ArtistDto artistDto, @PathVariable Long id) {
+    log.debug("Saving artist {} for user {}", artistDto.artistName, id);
+    userService.saveArtist(id, artistDto);
+  }
 }

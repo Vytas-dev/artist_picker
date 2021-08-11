@@ -18,50 +18,47 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
 
-    private final UserRepository userRepository;
-    private final ArtistRepository artistRepository;
-    private final QueryService queryService;
+  private final UserRepository userRepository;
+  private final ArtistRepository artistRepository;
+  private final QueryService queryService;
 
-    @Override
-    public User getUser(Long id) {
-        return userRepository
-                .findById(id)
-                .orElseThrow(() ->
-                        new ResourceAccessException("User does not exists, id:" + id)
-                );
-    }
+  @Override
+  public User getUser(Long id) {
+    return userRepository
+        .findById(id)
+        .orElseThrow(() -> new ResourceAccessException("User does not exists, id:" + id));
+  }
 
-    @Override
-    public void saveArtist(Long id, ArtistDto artistDto) {
-        var artist = artistRepository
-                .findById(artistDto.amgArtistId)
-                .orElse(saveNewArtist(artistDto));
+  @Override
+  public void saveArtist(Long id, ArtistDto artistDto) {
+    var artist = artistRepository.findById(artistDto.amgArtistId).orElse(saveNewArtist(artistDto));
 
-        userRepository
-                .findById(id)
-                .orElse(saveNewUser(id, artist));
-    }
+    userRepository.findById(id).orElse(saveNewUser(id, artist));
+  }
 
-    public void refreshArtistTopAlbums(Artist artist) {
-        var albums = queryService.getTopAlbumsForArtist(artist.getId())
-                .stream()
-                .filter(albumDto -> albumDto.wrapperType == WrapperType.COLLECTION)
-                .map(albumDto -> new Album(artist, albumDto.collectionName, albumDto.releaseDate))
-                .collect(Collectors.toSet());
-        artist.getAlbums().clear();
-        artist.getAlbums().addAll(albums);
-        artistRepository.save(artist);
-    }
+  @Override
+  public void refreshAllArtistTopAlbums() {
+    artistRepository.findAll().forEach(this::refreshArtistTopAlbums);
+  }
 
-    private Artist saveNewArtist(ArtistDto artistDto) {
-        var artist = artistRepository.save(new Artist(artistDto.amgArtistId, artistDto.artistName));
-        refreshArtistTopAlbums(artist);
-        return artist;
-    }
+  private Artist saveNewArtist(ArtistDto artistDto) {
+    var artist = artistRepository.save(new Artist(artistDto.amgArtistId, artistDto.artistName));
+    refreshArtistTopAlbums(artist);
+    return artist;
+  }
 
-    private User saveNewUser(Long id, Artist artist) {
-        return userRepository.save(new User(id, artist));
-    }
+  private void refreshArtistTopAlbums(Artist artist) {
+    var albums =
+            queryService.getTopAlbumsForArtist(artist.getId()).stream()
+                    .filter(albumDto -> albumDto.wrapperType == WrapperType.COLLECTION)
+                    .map(albumDto -> new Album(artist, albumDto.collectionName, albumDto.releaseDate))
+                    .collect(Collectors.toSet());
+    artist.getAlbums().clear();
+    artist.getAlbums().addAll(albums);
+    artistRepository.save(artist);
+  }
 
-
+  private User saveNewUser(Long id, Artist artist) {
+    return userRepository.save(new User(id, artist));
+  }
 }
